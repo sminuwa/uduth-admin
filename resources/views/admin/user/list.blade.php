@@ -10,7 +10,7 @@
             </h4>
         </div>
         <div class="col-sm-8 col-9 text-right m-b-20">
-            <a href="{{ route('admin.user.create') }}" class="btn btn btn-primary btn-rounded float-right"><i class="fa fa-plus"></i> New Report</a>
+            <a href="{{ route('admin.user.create') }}" class="btn btn btn-primary btn-rounded float-right"><i class="fa fa-user-plus"></i> New User</a>
         </div>
     </div>
 @endsection
@@ -34,7 +34,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach(get_users() as $user)
+                    @foreach(get_users()->where('users.id', '!=', get_user()->id)->get() as $user)
                         <tr>
                             <td>
                                 <img width="28" height="28" src="{{ asset('assets/img/user.jpg') }}" class="rounded-circle m-r-5" alt="">

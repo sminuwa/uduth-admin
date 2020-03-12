@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Role;
 use Illuminate\Http\Request;
 use App\User;
 
@@ -35,6 +36,24 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        //
+        $role = Role::where('name', $request->role)->get()[0];
+        if(User::create([
+            'name'=>$request->name,
+            'username'=>$request->username,
+            'password'=>bcrypt($request->password),
+            'dob'=>$request->dob,
+            'gender'=>$request->gender,
+            'email'=>$request->email,
+            'phone'=>$request->phone,
+            'picture'=>'user.png',
+            'account_name'=>$request->account_name,
+            'bank_name'=>$request->bank_name,
+            'status'=>'active',
+            'role_id'=>$role->id
+        ])){
+            return view('admin.user.list');
+        }
         return $request;
     }
 
@@ -47,7 +66,7 @@ class UserController extends Controller
     public function show(User $user)
     {
         /** @var TYPE_NAME $user */
-        return $user;
+        return view('admin.user.show', compact('user'));
     }
 
     /**

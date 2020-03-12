@@ -99,6 +99,18 @@ Route::group(['prefix'=> "admin", 'middleware' => 'auth'], function(){
             'destroy' => 'admin.service.type.destroy',
         ]
     ]);
+    Route::post('configuration/disable', 'ConfigurationController@disable')->name('admin.configuration.disable');
+    Route::resource('configuration', 'ConfigurationController', [
+        'names' => [
+            'index' => 'admin.configuration.index',
+            'store' => 'admin.configuration.store',
+            'show' => 'admin.configuration.show',
+            'create' => 'admin.configuration.create',
+            'edit' => 'admin.configuration.edit',
+            'update' => 'admin.configuration.update',
+            'destroy' => 'admin.configuration.destroy',
+        ]
+    ]);
 
     //ajax script for patient goes here
     Route::group(['script'], function(){

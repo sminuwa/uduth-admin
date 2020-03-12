@@ -30,7 +30,7 @@
                 </li>
 
                 <li class="@yield('sidebar-configuration')">
-                    <a href="#"><i class="fa fa-cog"></i> <span>Configurations</span></a>
+                    <a href="{{ route('admin.configuration.index') }}"><i class="fa fa-cog"></i> <span>Configurations</span></a>
                 </li>
 
                 <li>

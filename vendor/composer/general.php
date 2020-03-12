@@ -78,13 +78,13 @@ if (function_exists('get_user') == false) {
     function get_user($user_id = null)
     {
         if($user_id != null){
-            return  User::select('users.*', 'roles.id as role_id', 'roles.name as role', 'roles.prefix as prefix')
-                ->join('roles', 'users.id','roles.user_id')
+            return  User::select('users.*', 'roles.name as role', 'roles.prefix as prefix')
+                ->join('roles', 'users.role_id','roles.id')
                 ->where('users.id', $user_id)
                 ->get()[0];
         }
-        return  User::select('users.*', 'roles.id as role_id', 'roles.name as role', 'roles.prefix as prefix')
-            ->join('roles', 'users.id','roles.user_id')
+        return  User::select('users.*', 'roles.name as role', 'roles.prefix as prefix')
+            ->join('roles', 'users.role_id','roles.id')
             ->where('users.id', Auth::user()->id)
             ->get()[0];
 
@@ -93,10 +93,8 @@ if (function_exists('get_user') == false) {
 
 if(function_exists('get_users') == false){
     function get_users(){
-        return  User::select('users.*', 'roles.id as role_id', 'roles.name as role', 'roles.prefix as prefix')
-            ->join('roles', 'users.id','roles.user_id')
-            ->orderBy('roles.name', 'ASC')
-            ->get();
+        return  User::select('users.*', 'roles.name as role', 'roles.prefix as prefix')
+            ->join('roles', 'users.role_id','roles.id');
     }
 }
 
@@ -129,7 +127,9 @@ if (function_exists('get_configuration') == false) {
         if ($name != null) {
             return Configuration::where('name', $name)->get()[0];
         }
-        return Configuration::all();
+        $config = Configuration::groupBy('identifier')->orderBy('identifier', 'DESC')->get();
+        return $config;
+//        return Configuration::all();
     }
 }
 
@@ -312,5 +312,29 @@ if(function_exists('get_roles') == false){
 }
 
 
+if(!function_exists('SQLStatement')) {
+    function SQLStatement($table, $data)
+    {
+        $table = '`' . $table . '`';
+        // variable declaration
+        $columns = "";
+        $values = "";
+
+        // loop
+        foreach ($data as $column => $value) {
+            $columns = $columns . ", `" . $column . "`";
+            $values = $values . ",'" . $value . "' ";
+        }
+
+        // trimming the first comma from the result above
+        $columns = ltrim($columns, ',');
+        $values = ltrim($values, ',');
+
+        // statement
+        $sql = "INSERT INTO ${table} ( ${columns} ) VALUES ( ${values} )";
+
+        return $sql;
+    }
+}
 
 

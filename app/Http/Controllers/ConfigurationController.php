@@ -14,7 +14,7 @@ class ConfigurationController extends Controller
      */
     public function index()
     {
-        //
+        return view('admin.configuration.list');
     }
 
     /**
@@ -24,7 +24,15 @@ class ConfigurationController extends Controller
      */
     public function create()
     {
-        //
+        $configIdentifier = Configuration::all()->last();
+        if(!is_null($configIdentifier->identifier)){
+            $config = explode(' ',$configIdentifier->identifier);
+            $identifier = $config[1]+1;
+        }else{
+            $identifier = 1;
+        }
+//        return $identifier;
+        return view('admin.configuration.create',compact('identifier'));
     }
 
     /**
@@ -33,9 +41,23 @@ class ConfigurationController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
+    public function disable(Request $request){
+        Configuration::where('status', 1)->update(['status'=>0]);
+        return "Success";
+    }
+
     public function store(Request $request)
     {
-        //
+//        return $request;
+       Configuration::create([
+           'name'=>$request->name,
+           'value'=>$request->value,
+           'type'=>$request->type,
+           'status' => 1,
+           'identifier' => $request->identifier
+       ]);
+       return "Success";
     }
 
     /**
@@ -46,7 +68,8 @@ class ConfigurationController extends Controller
      */
     public function show(Configuration $configuration)
     {
-        //
+        $configuration = Configuration::where('identifier', $configuration->identifier)->get();
+        return view('admin.configuration.show', compact('configuration'));
     }
 
     /**
