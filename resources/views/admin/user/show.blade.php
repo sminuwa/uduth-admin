@@ -41,7 +41,9 @@
                                         ?>
                                     </div>
                                     <br>
+                                    @if(get_user()->role == 'admin')
                                     <div class="staff-msg"><a href="{{ route('admin.user.edit', $user->id) }}" class="btn btn-primary">Edit User</a></div>
+                                    @endif
                                 </div>
                             </div>
                             <div class="col-md-7">
@@ -58,7 +60,7 @@
                                         <span class="title">Date of Birth:</span>
                                         <span class="text">{{ $user->dob }}</span>
                                     </li>
-                                    <li>
+                                    {{--<li>
                                         <span class="title">Account Name:</span>
                                         <span class="text">{{ $user->account_name }}</span>
                                     </li>
@@ -69,7 +71,7 @@
                                     <li>
                                         <span class="title">Bank Name:</span>
                                         <span class="text">{{ $user->bank_name }}</span>
-                                    </li>
+                                    </li>--}}
                                 </ul>
                             </div>
                         </div>
@@ -90,7 +92,9 @@
                     <div class="col-md-12">
                         <div class="card-box">
                             <div class="text-right m-b-20">
+                                @if(get_user()->role == 'admin')
                                 <a href="#" class="btn btn btn-primary btn-rounded float-right"><i class="fa fa-plus"></i> Add Patient</a>
+                                @endif
                             </div>
                             <h3 class="card-title">Patients</h3>
                             <div class="experience-box">

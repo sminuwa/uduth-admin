@@ -15,15 +15,38 @@
 
 @section('page-content')
 
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-lg-12 col-xl-12">
+            <strong>Today: <span style="color: #00884f">{{ date('l, jS F Y') }}</span></strong>
+            <div class="float-right">
+                <div class="dropdown dropdown-action show">
+                    <form id="form-dashboard-stats-year" action="{{route('admin.dashboard.get_stats_date')}}" method="post">
+                        @csrf
+                        <input type="date" name="date" id="dashboard-date-changer" class="form-control-sm" style="border:none;border-bottom: 1px solid #00884f; background: none; color:#00884e;">
+                        <button type="submit" class="btn btn-primary btn-sm">Change</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    @if(!isset($year) && !isset($month) && !isset($day))
+        <?php
+            $day = date('Y-m-d');
+            $month = date('Y-m');
+            $year = date('Y');
+            $date = date('Y-m-d');
+        ?>
+    @endif
 
     <div class="row">
         <div class="col-md-6 col-sm-6 col-lg-6 col-xl-4">
             <div class="dash-widget">
                 <span class="dash-widget-bg1"><i class="fa fa-stethoscope" aria-hidden="true"></i></span>
                 <div class="dash-widget-info text-right">
-                    <h3>{{ get_patients(null, date('Y-m-d'))->count()  }}</h3>
-                    <span class="">Today's Patients</span>
+                    <h4>{{ get_patients(null, $day)->count()  }}</h4>
+                    <span class="">Patients</span>
+                    <div class=""><small>{{ date('l, jS F Y', strtotime($date)) }}</small></div>
                 </div>
             </div>
         </div>
@@ -31,8 +54,9 @@
             <div class="dash-widget">
                 <span class="dash-widget-bg1"><i class="fa fa-stethoscope"></i></span>
                 <div class="dash-widget-info text-right">
-                    <h3>{{ get_patients(null, date('Y-m'))->count() }}</h3>
-                    <span class="">{{ date('F Y') }}'s Patients</span>
+                    <h4>{{ get_patients(null, $month)->count() }}</h4>
+                    <span class="">Patients</span>
+                    <div class=""><small>{{ date('F Y', strtotime($date)) }}</small></div>
                 </div>
             </div>
         </div>
@@ -41,8 +65,9 @@
                 <span class="dash-widget-bg1"><i class="fa fa-stethoscope" aria-hidden="true"></i></span>
                 <div class="dash-widget-info text-right">
                     {{--                    <h3>{{ count(get_payment_by_user(get_user()->id)) }}</h3>--}}
-                    <h3>{{ get_patients(null, date('Y'))->count() }}</h3>
-                    <span class="">{{ date('Y') }}'s Patients</span>
+                    <h4>{{ get_patients(null, $year)->count() }}</h4>
+                    <span class="">Patients</span>
+                    <div class=""><small>{{ date('Y', strtotime($date)) }}</small></div>
                 </div>
             </div>
         </div>
@@ -52,8 +77,9 @@
             <div class="dash-widget">
                 <span class="dash-widget-bg1"><i class="fa fa-money" aria-hidden="true"></i></span>
                 <div class="dash-widget-info text-right">
-                    <h3>&#8358; {{ number_format(get_payment_by_user(null, date('Y-m-d'))->sum('service_amount')) }}</h3>
-                    <span class="">Today's Revenue</span>
+                    <h4>&#8358; {{ number_format(get_payment_by_user(null, $day)->sum('service_amount')) }}</h4>
+                    <span class="">Revenue</span>
+                    <div class=""><small>{{ date('l, jS F Y', strtotime($date)) }}</small></div>
                 </div>
             </div>
         </div>
@@ -61,8 +87,9 @@
             <div class="dash-widget">
                 <span class="dash-widget-bg1"><i class="fa fa-money"></i></span>
                 <div class="dash-widget-info text-right">
-                    <h3>&#8358; {{ number_format(get_payment_by_user(null, date('Y-m'))->sum('service_amount')) }}</h3>
-                    <span class="">{{ date('F Y') }}'s Revenue</span>
+                    <h4>&#8358; {{ number_format(get_payment_by_user(null, $month)->sum('service_amount')) }}</h4>
+                    <span class="">Revenue</span>
+                    <div class=""><small>{{ date('F Y', strtotime($date)) }}</small></div>
                 </div>
             </div>
         </div>
@@ -71,8 +98,9 @@
                 <span class="dash-widget-bg1"><i class="fa fa-money" aria-hidden="true"></i></span>
                 <div class="dash-widget-info text-right">
                     {{--                    <h3>{{ count(get_payment_by_user(get_user()->id)) }}</h3>--}}
-                    <h3>&#8358; {{ number_format(get_payment_by_user(null, date('Y'))->sum('service_amount')) }}</h3>
-                    <span class="">{{ date('Y') }}'s Revenue</span>
+                    <h4>&#8358; {{ number_format(get_payment_by_user(null, $year)->sum('service_amount')) }}</h4>
+                    <span class="">Revenue</span>
+                    <div class=""><small>{{ date('Y', strtotime($date)) }}</small></div>
                 </div>
             </div>
         </div>
@@ -146,7 +174,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach(get_payment_by_user(null, date('Y-m-d'))->orderBy('id', 'DESC')->get() as $payment)
+                            @foreach(get_payment_by_user(null, $day)->orderBy('id', 'DESC')->get() as $payment)
                                 <tr>
                                     <td style="min-width: 200px;">
                                         <a class="avatar" href="{{ route('user.patient.payment.invoice', ['patient'=> $payment->patient_id, 'payment'=>$payment->id]) }}">B</a>
@@ -183,7 +211,7 @@
                 </div>
                 <div class="card-body">
                     <ul class="contact-list">
-                        @foreach(get_patients(null, date('Y-m-d'))->orderBy('id', 'DESC')->get() as $patient)
+                        @foreach(get_patients(null, $day)->orderBy('id', 'DESC')->get() as $patient)
                             <li>
                                 <div class="contact-cont">
                                     <div class="float-left user-img m-r-10">
@@ -225,9 +253,9 @@
                 $("#form-revenue-stats-year").submit();
             });
 
-                @if(!isset($year))
+                {{--@if(!isset($year))
                 {{ $year = null }}
-                @endif
+                @endif--}}
 
             let patientChart = {
                     labels: ['Jan', 'Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
@@ -241,7 +269,7 @@
                             {{ get_patient_stats_data(null,get_patient_stats_label('Feb', $year))->count() }},
                             {{ get_patient_stats_data(null,get_patient_stats_label('Mar', $year))->count() }},
                             {{ get_patient_stats_data(null,get_patient_stats_label('Apr', $year))->count() }},
-                            {{ get_patient_stats_data(null,get_patient_stats_label('Mar', $year))->count() }},
+                            {{ get_patient_stats_data(null,get_patient_stats_label('May', $year))->count() }},
                             {{ get_patient_stats_data(null,get_patient_stats_label('Jun', $year))->count() }},
                             {{ get_patient_stats_data(null,get_patient_stats_label('Jul', $year))->count() }},
                             {{ get_patient_stats_data(null,get_patient_stats_label('Aug', $year))->count() }},
@@ -265,7 +293,7 @@
                         {{ get_revenue_stats_data(null,get_revenue_stats_label('Feb', $year))->sum('service_amount') }},
                         {{ get_revenue_stats_data(null,get_revenue_stats_label('Mar', $year))->sum('service_amount') }},
                         {{ get_revenue_stats_data(null,get_revenue_stats_label('Apr', $year))->sum('service_amount') }},
-                        {{ get_revenue_stats_data(null,get_revenue_stats_label('Mar', $year))->sum('service_amount') }},
+                        {{ get_revenue_stats_data(null,get_revenue_stats_label('May', $year))->sum('service_amount') }},
                         {{ get_revenue_stats_data(null,get_revenue_stats_label('Jun', $year))->sum('service_amount') }},
                         {{ get_revenue_stats_data(null,get_revenue_stats_label('Jul', $year))->sum('service_amount') }},
                         {{ get_revenue_stats_data(null,get_revenue_stats_label('Aug', $year))->sum('service_amount') }},

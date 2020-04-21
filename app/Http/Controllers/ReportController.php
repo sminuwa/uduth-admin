@@ -58,6 +58,7 @@ class ReportController extends Controller
      */
     public function show(Report $report)
     {
+        Report::where('id', $report->id)->update(['status'=>1]);
         return view('admin.report.show', compact('report'));
     }
 

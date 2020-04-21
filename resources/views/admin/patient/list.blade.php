@@ -10,6 +10,8 @@
             </h4>
         </div>
         <div class="col-sm-8 col-9 text-right m-b-20">
+            <a href="javascript:;" data-toggle="modal" data-target="#filter-patients" class="btn btn btn-outline-primary btn-rounded float-right"><i class="fa fa-filter"></i> Filter</a>
+            <a href="{{ route('admin.patient.export') }}" class="btn btn btn-warning btn-rounded float-right"><i class="fa fa-download"></i> Export All</a>
             <a href="{{ route('admin.patient.create') }}" class="btn btn btn-primary btn-rounded float-right"><i class="fa fa-plus"></i> Add Patient</a>
         </div>
     </div>
@@ -49,9 +51,11 @@
                                 <a  href="{{ route('admin.patient.show', $patient->id) }}" class="btn btn-outline-primary btn-sm">
                                     <i class="fa fa-user-circle m-r-5"></i> Profile
                                 </a>
+                                @if(get_user()->role == 'admin')
                                 <a onclick="patientDel({{$patient->id}})" href="javascript:;" class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#delete_patient">
                                     <i class="fa fa-trash m-r-5"></i> Delete
                                 </a>
+                                @endif
                             </td>
                             <form id="del{{$patient->id}}" action="{{ route('admin.patient.destroy', $patient->id) }}" method="post">
                                 @csrf

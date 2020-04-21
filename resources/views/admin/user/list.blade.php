@@ -9,9 +9,11 @@
                 Users
             </h4>
         </div>
+        @if(get_user()->role == 'admin')
         <div class="col-sm-8 col-9 text-right m-b-20">
             <a href="{{ route('admin.user.create') }}" class="btn btn btn-primary btn-rounded float-right"><i class="fa fa-user-plus"></i> New User</a>
         </div>
+        @endif
     </div>
 @endsection
 
@@ -48,15 +50,17 @@
                                 <a  href="{{ route('admin.user.show', $user->id) }}" class="btn btn-outline-primary btn-sm">
                                     <i class="fa fa-user m-r-5"></i> Profile
                                 </a>
-                                @if($user->id != get_user()->id)
-                                    @if($user->status == 'active')
-                                        <a  href="{{ route('admin.user.suspend', $user->id) }}" class="btn btn-outline-warning btn-sm">
-                                            <i class="fa fa-user m-r-5"></i> Suspend
-                                        </a>
-                                        @else
-                                        <a  href="{{ route('admin.user.activate', $user->id) }}" class="btn btn-outline-dark btn-sm">
-                                            <i class="fa fa-user m-r-5"></i> Activate
-                                        </a>
+                                @if(get_user()->role == 'admin')
+                                    @if($user->id != get_user()->id)
+                                        @if($user->status == 'active')
+                                            <a  href="{{ route('admin.user.suspend', $user->id) }}" class="btn btn-outline-warning btn-sm">
+                                                <i class="fa fa-user m-r-5"></i> Suspend
+                                            </a>
+                                            @else
+                                            <a  href="{{ route('admin.user.activate', $user->id) }}" class="btn btn-outline-dark btn-sm">
+                                                <i class="fa fa-user m-r-5"></i> Activate
+                                            </a>
+                                        @endif
                                     @endif
                                 @endif
                             </td>

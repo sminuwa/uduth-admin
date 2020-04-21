@@ -25,7 +25,7 @@ class ServiceController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.service.create');
     }
 
     /**
@@ -36,7 +36,11 @@ class ServiceController extends Controller
      */
     public function store(Request $request)
     {
-       //
+       if(Service::create([
+           'name'=>$request->name
+       ])){
+           return view('admin.service.list');
+       }
     }
 
     /**

@@ -76,7 +76,7 @@
                             <input name="email" id="email" class="form-control" type="text">
                         </div>
                     </div>
-                    <div class="col-sm-4">
+                    {{--<div class="col-sm-4">
                         <div class="form-group">
                             <label for="account_number">Account Number:  <span class="text-danger">*</span></label>
                             <input name="account_number" id="account_number" type="text" class="form-control" required>
@@ -93,7 +93,7 @@
                             <label for="bank_name">Bank Name: <span class="text-danger">*</span></label>
                             <input name="bank_name" id="bank_name" class="form-control" type="text" required>
                         </div>
-                    </div>
+                    </div>--}}
 
                     <div class="col-sm-12">
                         <div class="form-group">

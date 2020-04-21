@@ -24,11 +24,15 @@ Route::group(['prefix'=> "admin", 'middleware' => 'auth'], function(){
     Route::get('/', function () {return view('admin.dashboard'); });
     Route::get('patients', 'PatientController@index')->name('admin.patients');
     Route::post('patient/stats_year/', 'PatientController@get_stats_year')->name('admin.patient.get_stats_year');
+    Route::post('dashboard/stats_date/', 'PatientController@get_stats_date')->name('admin.dashboard.get_stats_date');
 
     Route::get('services', 'ServiceController@index')->name('admin.services');
     Route::get('patient/{patient}/add-service', 'PatientController@add_service')->name('admin.patient.add.service');
     Route::post('patient/{patient}/store-service', 'PatientController@store_service')->name('admin.patient.store.service');
     Route::get('patient/{patient}/payment/{payment}/invoice', 'PatientController@payment_invoice')->name('admin.patient.payment.invoice');
+    Route::get('patient/export', 'PatientController@export')->name('admin.patient.export');
+    Route::post('patient/filter', 'PatientController@filter')->name('admin.patient.filter');
+    Route::get('patient/filter/export', 'PatientController@filter_export')->name('admin.patient.filter.export');
 
     //dashboard
     //Route::post('dashboard/patient-stats/{year}', 'PatientController@user_patient_stats_year')->name('user.dashboard.patient_stats_year');
@@ -109,6 +113,19 @@ Route::group(['prefix'=> "admin", 'middleware' => 'auth'], function(){
             'edit' => 'admin.configuration.edit',
             'update' => 'admin.configuration.update',
             'destroy' => 'admin.configuration.destroy',
+        ]
+    ]);
+
+    Route::post('revenue/get_revenue', 'RevenueController@get_revenue')->name('admin.revenue.get_revenue');
+    Route::resource('revenue', 'RevenueController', [
+        'names' => [
+            'index' => 'admin.revenue.index',
+            'store' => 'admin.revenue.store',
+            'show' => 'admin.revenue.show',
+            'create' => 'admin.revenue.create',
+            'edit' => 'admin.revenue.edit',
+            'update' => 'admin.revenue.update',
+            'destroy' => 'admin.revenue.destroy',
         ]
     ]);
 

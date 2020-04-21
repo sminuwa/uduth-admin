@@ -40,6 +40,7 @@
                             <select type="text" class="form-control" name="1type" required id="1type">
                                 <option>Fixed</option>
                                 <option>Fixed%</option>
+                                <option>#0</option>
                                 <option>#1</option>
                                 <option>#2</option>
                                 <option>#3</option>
@@ -91,6 +92,7 @@
                     '<select type="text" class="form-control" name="' + formName + 'type" id="' + formName + 'type" required>' +
                     '<option>Fixed</option>' +
                     '<option>Fixed%</option>' +
+                    '<option>#0</option>' +
                     '<option>#1</option>' +
                     '<option>#2</option>' +
                     '<option>#3</option>' +

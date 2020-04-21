@@ -14,9 +14,13 @@ class RevenueController extends Controller
      */
     public function index()
     {
-        //
+        return view('admin.revenue.list');
     }
 
+    public function get_revenue(Request $request){
+        $date = $request->year.'-'.$request->month;
+        return view('admin.revenue.list', compact('date'));
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -46,7 +50,7 @@ class RevenueController extends Controller
      */
     public function show(Revenue $revenue)
     {
-        //
+
     }
 
     /**

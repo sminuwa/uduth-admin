@@ -14,7 +14,7 @@
 
     <title>{{ config('app.name', 'UDUTHCTPPP') }}</title>
 
-    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/img/favicon.ico') }}">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/img/favicon.png') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/bootstrap.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/font-awesome.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/select2.min.css') }}">
@@ -38,21 +38,24 @@
                 left: 0;
                 top: 0;
                 width: 90%;
-                margin:5%;
+                margin-left:5%;
+                margin-bottom:5%;
             }
         }
     </style>
 </head>
 
 <body>
-<div id="sync-loader" style="position: absolute; width:100%; height:100%; background:#ffffff;z-index:10000;display:none">
-    <div style="position:absolute;top: 50%;left:50%;">Hello</div>
+<div class="loader" style="position: absolute; width:100%; height:100%; background:#ffffff;z-index:10000;">
+    <div style="position:absolute;top: 50%;left:50%;">
+      <img src="{{ asset('assets/img/preloader.gif') }}">
+    </div>
 </div>
 <div class="main-wrapper">
     <div class="header">
         <div class="header-left">
             <a href="{{ url('/') }}" class="logo">
-                <img src="{{ asset('assets/img/logo.png') }}" width="35" height="35" alt=""> <span>UDUTHCTPPP</span>
+                <img src="{{ asset('assets/img/favicon.png') }}" width="35" height="30" alt="" class="img img-thumbnail"> <span>UDUTHCTPPP</span>
             </a>
         </div>
         <a id="toggle_btn" href="javascript:void(0);"><i class="fa fa-bars"></i></a>
@@ -147,13 +150,17 @@
 
 <script>
 
+    $(document).ready(function(){
+       $(".loader").hide();
+    });
+
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
 
-    @if(is_connected())
+    {{--@if(is_connected())
         @if(is_synced() == false)
 
         if(localStorage['auto-sync-close-btn'] != 'clicked'){
@@ -164,7 +171,7 @@
         }
             // $("#sync-loader").css('display', 'block');
         @endif
-    @endif
+    @endif--}}
 </script>
 @yield('script')
 </body>

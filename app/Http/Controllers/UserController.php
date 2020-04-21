@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Role;
 use Illuminate\Http\Request;
 use App\User;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Redirect;
 
 class UserController extends Controller
 {
@@ -77,7 +79,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        return $user;
+        return view('admin.user.edit', compact('user'));
     }
 
     /**
@@ -89,7 +91,18 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        return $request;
+        if(User::where('id', $user->id)->update([
+            'name'=>$request->name,
+            'username'=>$request->username,
+//            'password'=>Hash::make($request->username),
+            'dob'=>$request->dob,
+            'gender'=>$request->gender,
+            'phone'=>$request->phone,
+            'email'=>$request->email
+        ])){
+            return Redirect::back()->withErrors(['<div class="alert alert-success">Record updated successfully</div>']);
+        }
+        return Redirect::back()->withErrors(['<div class="alert alert-danger">Failed</div>']);
     }
 
     /**
